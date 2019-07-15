@@ -1,0 +1,842 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Wix xmlns="http://schemas.microsoft.com/wix/2006/wi">
+  <?define AbcAutoGen_TargetDir=$(var.AbcAutoGen.TargetDir)?>
+  <?define UpgradeCode="{d68e7c46-c071-45df-b3c3-5bec10a54e94}" ?>
+  <?define ProductVersion="1.0.6.2" ?>
+
+  <Product Id="C5F39f40-704c-5678-897a-e98Ad36bf145" Name="Abc AutoGen" Language="1033" Version="1.0.6.2" Manufacturer="MyOrg Corporation" UpgradeCode="a58g7d46-c071-45df-a3f3-5bec10a54e94">
+    <Package InstallerVersion="200" Compressed="yes" InstallScope="perUser" InstallPrivileges="limited" />
+
+    <Icon Id="logo.ico" SourceFile="$(var.ProjectDir)logo.ico" />
+    <Property Id="AbcProd" Value="logo.ico" />
+
+    <Property Id="WIXUI_INSTALLDIR" Value="INSTALLFOLDER" />
+    <Property Id="ALLUSERS" Secure="yes"/>
+    <UI>
+      <UIRef Id="WixUI_InstallDir" />
+      <Publish Dialog="WelcomeDlg" Control="Next" Event="NewDialog" Value="InstallDirDlg" Order="2">1</Publish>
+      <Publish Dialog="InstallDirDlg" Control="Back" Event="NewDialog" Value="WelcomeDlg" Order="2">1</Publish>
+    </UI>
+
+    <Upgrade Id="$(var.UpgradeCode)" >
+      <UpgradeVersion   Minimum="$(var.ProductVersion)"
+                        IncludeMinimum="no"
+                        OnlyDetect="yes"
+                        Language="1033"
+                        Property="NEWPRODUCTFOUND" />
+      <UpgradeVersion Minimum="1.0.0.0"
+                      IncludeMinimum="yes"
+                      Maximum="$(var.ProductVersion)"
+                      IncludeMaximum="no"
+                      Language="1033"
+                      Property="UPGRADEFOUND" />
+    </Upgrade>
+
+    <MajorUpgrade AllowSameVersionUpgrades="yes" AllowDowngrades="no" Schedule="afterInstallInitialize"  DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
+
+      <Property Id="INSTALLFOLDER">
+        <RegistrySearch Id="InstallFolder" Root="HKCU" Key="Software\MyOrg\AbcAutoGen" Name="InstallFolder" Type="directory" />
+      </Property>
+
+    <!--<CustomAction Id="NoDowngrade" Error="A later version of [ProductName] is already installed." Impersonate="yes"  />
+
+    <InstallExecuteSequence>
+      <Custom Action="NoDowngrade" After="FindRelatedProducts">NEWPRODUCTFOUND</Custom>
+      <RemoveExistingProducts After="InstallFinalize" />
+    </InstallExecuteSequence>
+
+    <InstallUISequence>
+      <Custom Action="NoDowngrade" After="FindRelatedProducts">NEWPRODUCTFOUND</Custom>
+    </InstallUISequence>-->
+
+    <MediaTemplate EmbedCab="yes" />
+
+    <Feature Id="ProductFeature" Title="Deploy AbcAutoGen Tool" Level="1">
+      <ComponentGroupRef Id="ProductComponents" />
+      <ComponentRef Id="ApplicationShortcut" />
+      <ComponentRef Id="ApplicationShortcutDesktop" />
+      <ComponentGroupRef Id="Components_Configuration_files" />
+      <ComponentGroupRef Id="Components_files" />
+      <ComponentGroupRef Id="Components_Configuration_Environment_BUAT_CDE_files" />
+      <ComponentGroupRef Id="Components_Configuration_Environment_CUAT_CDE_files" />
+      <ComponentGroupRef Id="Components_Configuration_Environment_INT_CDE_files" />
+      <ComponentGroupRef Id="Components_Configuration_Environment_PROD_CDE_files" />
+      <ComponentGroupRef Id="Components_Configuration_Environment_BUAT_CDE_SQLs_files" />
+      <ComponentGroupRef Id="Components_Configuration_Environment_BUAT_FGH_files" />
+      <ComponentGroupRef Id="Components_Configuration_Environment_BUAT_FGH_SQLs_files" />
+      <ComponentGroupRef Id="Components_Configuration_Environment_BUAT_IJK_files" />
+      <ComponentGroupRef Id="Components_Configuration_Environment_BUAT_IJK_SQLs_files" />
+      <ComponentGroupRef Id="Components_Configuration_Environment_BUAT_LMN_files" />
+      <ComponentGroupRef Id="Components_Configuration_Environment_BUAT_LMN_SQLs_files" />
+      <ComponentGroupRef Id="Components_Configuration_Environment_BUAT_OPQ_files" />
+      <ComponentGroupRef Id="Components_Configuration_Environment_BUAT_OPQ_SQLs_files" />
+      <ComponentGroupRef Id="Components_Configuration_Environment_BUAT_RST_files" />
+      <ComponentGroupRef Id="Components_Configuration_Environment_BUAT_RST_SQLs_files" />
+      <ComponentGroupRef Id="Components_Configuration_Environment_CUAT_FGH_files" />
+      <ComponentGroupRef Id="Components_Configuration_Environment_CUAT_FGH_SQLs_files" />
+      <ComponentGroupRef Id="Components_Configuration_Environment_CUAT_IJK_files" />
+      <ComponentGroupRef Id="Components_Configuration_Environment_CUAT_LMN_files" />
+      <ComponentGroupRef Id="Components_Configuration_Environment_CUAT_OPQ_SQLs_files" />
+      <ComponentGroupRef Id="Components_Configuration_Environment_CUAT_OPQ_files" />
+      <ComponentGroupRef Id="Components_Configuration_Environment_CUAT_RST_files" />
+      <ComponentGroupRef Id="Components_Configuration_Environment_CUAT_RST_SQLs_files" />
+      <ComponentGroupRef Id="Components_Configuration_Environment_INT_IJK_files" />
+      <ComponentGroupRef Id="Components_Configuration_Environment_INT_LMN_files" />
+      <ComponentGroupRef Id="Components_Configuration_Environment_INT_OPQ_files" />
+      <ComponentGroupRef Id="Components_Configuration_Environment_INT_OPQ_SQLs_files" />
+      <ComponentGroupRef Id="Components_Configuration_Environment_INT_RST_files" />
+      <ComponentGroupRef Id="Components_Configuration_Environment_INT_RST_SQLs_files" />
+      <ComponentGroupRef Id="Components_Configuration_Environment_PROD_FGH_files" />
+      <ComponentGroupRef Id="Components_Configuration_Environment_PROD_FGH_SQLs_files" />
+      <ComponentGroupRef Id="Components_Configuration_Environment_PROD_LMN_files" />
+      <ComponentGroupRef Id="Components_Configuration_Environment_PROD_IJK_files" />
+      <ComponentGroupRef Id="Components_Configuration_Environment_PROD_OPQ_files" />
+      <ComponentGroupRef Id="Components_Configuration_Environment_PROD_OPQ_SQLs_files" />
+      <ComponentGroupRef Id="Components_Configuration_Environment_PROD_RST_files" />
+      <ComponentGroupRef Id="Components_Configuration_Environment_PROD_RST_SQLs_files" />
+      <ComponentGroupRef Id="Components_Configuration_Environment_CUAT_IJK_SQLs_files" />
+      <ComponentGroupRef Id="Components_Configuration_Environment_CUAT_CDE_SQLs_files" />
+      <ComponentGroupRef Id="Components_Configuration_Environment_INT_IJK_SQLs_files" />
+      <ComponentGroupRef Id="Components_Configuration_Environment_CUAT_LMN_SQLs_files" />
+      <ComponentGroupRef Id="Components_Configuration_Environment_INT_CDE_SQLs_files" />
+      <ComponentGroupRef Id="Components_Configuration_Environment_INT_LMN_SQLs_files" />
+      <ComponentGroupRef Id="Components_Configuration_Environment_PROD_IJK_SQLs_files" />
+      <ComponentGroupRef Id="Components_Configuration_Environment_PROD_CDE_SQLs_files" />
+      <ComponentGroupRef Id="Components_Configuration_Environment_PROD_LMN_SQLs_files" />
+    </Feature>
+  </Product>
+
+  <Fragment>
+    <Directory Id="TARGETDIR" Name="SourceDir">
+      <Directory Id="LocalAppDataFolder">
+        <!--ProgramFilesFolder LocalAppDataFolder-->
+        <Directory Id="CDE">
+          <Directory Id="INSTALLFOLDER" Name="AbcAutoGen">
+            <Directory Id="Components" Name="Components">
+              <Directory Id="Components_Configuration" Name="Configuration">
+                <Directory Id="Components_Configuration_Environment" Name="Environment">
+                  <Directory Id="Components_Configuration_Environment_BUAT" Name="BUAT">
+                    <Directory Id="Components_Configuration_Environment_BUAT_CDE" Name="CDE">
+                      <Directory Id="Components_Configuration_Environment_BUAT_CDE_SQLs" Name="SQLs" />
+                    </Directory>
+                    <Directory Id="Components_Configuration_Environment_BUAT_FGH" Name="FGH">
+                      <Directory Id="Components_Configuration_Environment_BUAT_FGH_SQLs" Name="SQLs" />
+                    </Directory>
+                    <Directory Id="Components_Configuration_Environment_BUAT_OPQ" Name="OPQ">
+                      <Directory Id="Components_Configuration_Environment_BUAT_OPQ_SQLs" Name="SQLs" />
+                    </Directory>
+                    <Directory Id="Components_Configuration_Environment_BUAT_RST" Name="RST">
+                      <Directory Id="Components_Configuration_Environment_BUAT_RST_SQLs" Name="SQLs" />
+                    </Directory>
+                    <Directory Id="Components_Configuration_Environment_BUAT_IJK" Name="IJK">
+                      <Directory Id="Components_Configuration_Environment_BUAT_IJK_SQLs" Name="SQLs" />
+                    </Directory>
+                    <Directory Id="Components_Configuration_Environment_BUAT_LMN" Name="LMN">
+                      <Directory Id="Components_Configuration_Environment_BUAT_LMN_SQLs" Name="SQLs" />
+                    </Directory>
+                  </Directory>
+                  <Directory Id="Components_Configuration_Environment_CUAT" Name="CUAT">
+                    <Directory Id="Components_Configuration_Environment_CUAT_CDE" Name="CDE">
+                      <Directory Id="Components_Configuration_Environment_CUAT_CDE_SQLs" Name="SQLs" />
+                    </Directory>
+                    <Directory Id="Components_Configuration_Environment_CUAT_RST" Name="RST">
+                      <Directory Id="Components_Configuration_Environment_CUAT_RST_SQLs" Name="SQLs" />
+                    </Directory>
+                    <Directory Id="Components_Configuration_Environment_CUAT_LMN" Name="LMN">
+                      <Directory Id="Components_Configuration_Environment_CUAT_LMN_SQLs" Name="SQLs" />
+                    </Directory>
+                    <Directory Id="Components_Configuration_Environment_CUAT_IJK" Name="IJK">
+                      <Directory Id="Components_Configuration_Environment_CUAT_IJK_SQLs" Name="SQLs" />
+                    </Directory>
+                    <Directory Id="Components_Configuration_Environment_CUAT_FGH" Name="FGH">
+                      <Directory Id="Components_Configuration_Environment_CUAT_FGH_SQLs" Name="SQLs" />
+                    </Directory>
+                    <Directory Id="Components_Configuration_Environment_CUAT_OPQ" Name="OPQ">
+                      <Directory Id="Components_Configuration_Environment_CUAT_OPQ_SQLs" Name="SQLs" />
+                    </Directory>
+                  </Directory>
+                  <Directory Id="Components_Configuration_Environment_INT" Name="INT">
+                    <Directory Id="Components_Configuration_Environment_INT_CDE" Name="CDE">
+                      <Directory Id="Components_Configuration_Environment_INT_CDE_SQLs" Name="SQLs" />
+                    </Directory>
+                    <Directory Id="Components_Configuration_Environment_INT_IJK" Name="IJK">
+                      <Directory Id="Components_Configuration_Environment_INT_IJK_SQLs" Name="SQLs" />
+                    </Directory>
+                    <Directory Id="Components_Configuration_Environment_INT_LMN" Name="LMN">
+                      <Directory Id="Components_Configuration_Environment_INT_LMN_SQLs" Name="SQLs" />
+                    </Directory>
+                    <Directory Id="Components_Configuration_Environment_INT_OPQ" Name="OPQ">
+                      <Directory Id="Components_Configuration_Environment_INT_OPQ_SQLs" Name="SQLs" />
+                    </Directory>
+                    <Directory Id="Components_Configuration_Environment_INT_RST" Name="RST">
+                      <Directory Id="Components_Configuration_Environment_INT_RST_SQLs" Name="SQLs" />
+                    </Directory>
+
+                  </Directory>
+                  <Directory Id="Components_Configuration_Environment_PROD" Name="PROD">
+                    <Directory Id="Components_Configuration_Environment_PROD_CDE" Name="CDE">
+                      <Directory Id="Components_Configuration_Environment_PROD_CDE_SQLs" Name="SQLs" />
+                    </Directory>
+                    <Directory Id="Components_Configuration_Environment_PROD_RST" Name="RST">
+                      <Directory Id="Components_Configuration_Environment_PROD_RST_SQLs" Name="SQLs" />
+                    </Directory>
+                    <Directory Id="Components_Configuration_Environment_PROD_OPQ" Name="OPQ">
+                      <Directory Id="Components_Configuration_Environment_PROD_OPQ_SQLs" Name="SQLs" />
+                    </Directory>
+                    <Directory Id="Components_Configuration_Environment_PROD_FGH" Name="FGH">
+                      <Directory Id="Components_Configuration_Environment_PROD_FGH_SQLs" Name="SQLs" />
+                    </Directory>
+                    <Directory Id="Components_Configuration_Environment_PROD_IJK" Name="IJK">
+                      <Directory Id="Components_Configuration_Environment_PROD_IJK_SQLs" Name="SQLs" />
+                    </Directory>
+                    <Directory Id="Components_Configuration_Environment_PROD_LMN" Name="LMN">
+                      <Directory Id="Components_Configuration_Environment_PROD_LMN_SQLs" Name="SQLs" />
+                    </Directory>
+                  </Directory>
+                </Directory>
+              </Directory>
+            </Directory>
+
+            <Component Guid="*" Feature="ProductFeature">
+              <!--<Component Guid="{77777777-7777-7777-7777-7777777777DD}" Feature="ProductFeature">-->
+              <RegistryKey Root="HKCU" Key="Software\MyOrg\AbcAutoGen">
+                <RegistryValue Name="Flag" Value="1" Type="string" KeyPath="yes" Id="AutoGenInstallDir"/>
+              </RegistryKey>
+
+
+
+              <RemoveFolder Id="RemoveINSTALLFOLDER" Directory="INSTALLFOLDER" On="uninstall" />
+              <RemoveFolder Id="RemoveParity" Directory="CDE" On="uninstall" />
+              <RemoveFolder Id="RemoveComponents_Configuration_Environment_INT_IJK_SQLs" Directory="Components_Configuration_Environment_INT_IJK_SQLs" On="uninstall" />
+              <RemoveFolder Id="RemoveComponents" Directory="Components" On="uninstall" />
+              <RemoveFolder Id="RemoveComponents_Configuration" Directory="Components_Configuration" On="uninstall" />
+              <RemoveFolder Id="RemoveComponents_Configuration_Environment" Directory="Components_Configuration_Environment" On="uninstall" />
+              <RemoveFolder Id="RemoveComponents_Configuration_Environment_BUAT" Directory="Components_Configuration_Environment_BUAT" On="uninstall" />
+              <RemoveFolder Id="RemoveComponents_Configuration_Environment_BUAT_CDE" Directory="Components_Configuration_Environment_BUAT_CDE" On="uninstall" />
+              <RemoveFolder Id="RemoveComponents_Configuration_Environment_BUAT_CDE_SQLs" Directory="Components_Configuration_Environment_BUAT_CDE_SQLs" On="uninstall" />
+              <RemoveFolder Id="RemoveComponents_Configuration_Environment_BUAT_FGH" Directory="Components_Configuration_Environment_BUAT_FGH" On="uninstall" />
+              <RemoveFolder Id="RemoveComponents_Configuration_Environment_BUAT_FGH_SQLs" Directory="Components_Configuration_Environment_BUAT_FGH_SQLs" On="uninstall" />
+              <RemoveFolder Id="RemoveComponents_Configuration_Environment_BUAT_OPQ" Directory="Components_Configuration_Environment_BUAT_OPQ" On="uninstall" />
+              <RemoveFolder Id="RemoveComponents_Configuration_Environment_BUAT_OPQ_SQLs" Directory="Components_Configuration_Environment_BUAT_OPQ_SQLs" On="uninstall" />
+              <RemoveFolder Id="RemoveComponents_Configuration_Environment_BUAT_RST" Directory="Components_Configuration_Environment_BUAT_RST" On="uninstall" />
+              <RemoveFolder Id="RemoveComponents_Configuration_Environment_BUAT_RST_SQLs" Directory="Components_Configuration_Environment_BUAT_RST_SQLs" On="uninstall" />
+              <RemoveFolder Id="RemoveComponents_Configuration_Environment_BUAT_IJK" Directory="Components_Configuration_Environment_BUAT_IJK" On="uninstall" />
+              <RemoveFolder Id="RemoveComponents_Configuration_Environment_BUAT_IJK_SQLs" Directory="Components_Configuration_Environment_BUAT_IJK_SQLs" On="uninstall" />
+              <RemoveFolder Id="RemoveComponents_Configuration_Environment_BUAT_LMN" Directory="Components_Configuration_Environment_BUAT_LMN" On="uninstall" />
+              <RemoveFolder Id="RemoveComponents_Configuration_Environment_BUAT_LMN_SQLs" Directory="Components_Configuration_Environment_BUAT_LMN_SQLs" On="uninstall" />
+              <RemoveFolder Id="RemoveComponents_Configuration_Environment_CUAT" Directory="Components_Configuration_Environment_CUAT" On="uninstall" />
+              <RemoveFolder Id="RemoveComponents_Configuration_Environment_CUAT_CDE" Directory="Components_Configuration_Environment_CUAT_CDE" On="uninstall" />
+              <RemoveFolder Id="RemoveComponents_Configuration_Environment_CUAT_CDE_SQLs" Directory="Components_Configuration_Environment_CUAT_CDE_SQLs" On="uninstall" />
+              <RemoveFolder Id="RemoveComponents_Configuration_Environment_CUAT_RST" Directory="Components_Configuration_Environment_CUAT_RST" On="uninstall" />
+              <RemoveFolder Id="RemoveComponents_Configuration_Environment_CUAT_RST_SQLs" Directory="Components_Configuration_Environment_CUAT_RST_SQLs" On="uninstall" />
+              <RemoveFolder Id="RemoveComponents_Configuration_Environment_CUAT_LMN" Directory="Components_Configuration_Environment_CUAT_LMN" On="uninstall" />
+              <RemoveFolder Id="RemoveComponents_Configuration_Environment_CUAT_LMN_SQLs" Directory="Components_Configuration_Environment_CUAT_LMN_SQLs" On="uninstall" />
+              <RemoveFolder Id="RemoveComponents_Configuration_Environment_CUAT_IJK" Directory="Components_Configuration_Environment_CUAT_IJK" On="uninstall" />
+              <RemoveFolder Id="RemoveComponents_Configuration_Environment_CUAT_IJK_SQLs" Directory="Components_Configuration_Environment_CUAT_IJK_SQLs" On="uninstall" />
+              <RemoveFolder Id="RemoveComponents_Configuration_Environment_CUAT_FGH" Directory="Components_Configuration_Environment_CUAT_FGH" On="uninstall" />
+              <RemoveFolder Id="RemoveComponents_Configuration_Environment_CUAT_FGH_SQLs" Directory="Components_Configuration_Environment_CUAT_FGH_SQLs" On="uninstall" />
+              <RemoveFolder Id="RemoveComponents_Configuration_Environment_CUAT_OPQ" Directory="Components_Configuration_Environment_CUAT_OPQ" On="uninstall" />
+              <RemoveFolder Id="RemoveComponents_Configuration_Environment_CUAT_OPQ_SQLs" Directory="Components_Configuration_Environment_CUAT_OPQ_SQLs" On="uninstall" />
+              <RemoveFolder Id="RemoveComponents_Configuration_Environment_INT" Directory="Components_Configuration_Environment_INT" On="uninstall" />
+              <RemoveFolder Id="RemoveComponents_Configuration_Environment_INT_CDE" Directory="Components_Configuration_Environment_INT_CDE" On="uninstall" />
+              <RemoveFolder Id="RemoveComponents_Configuration_Environment_INT_CDE_SQLs" Directory="Components_Configuration_Environment_INT_CDE_SQLs" On="uninstall" />
+              <RemoveFolder Id="RemoveComponents_Configuration_Environment_INT_IJK" Directory="Components_Configuration_Environment_INT_IJK" On="uninstall" />
+              <RemoveFolder Id="RemoveComponents_Configuration_Environment_INT_LMN" Directory="Components_Configuration_Environment_INT_LMN" On="uninstall" />
+              <RemoveFolder Id="RemoveComponents_Configuration_Environment_INT_LMN_SQLs" Directory="Components_Configuration_Environment_INT_LMN_SQLs" On="uninstall" />
+              <RemoveFolder Id="RemoveComponents_Configuration_Environment_INT_OPQ" Directory="Components_Configuration_Environment_INT_OPQ" On="uninstall" />
+              <RemoveFolder Id="RemoveComponents_Configuration_Environment_INT_OPQ_SQLs" Directory="Components_Configuration_Environment_INT_OPQ_SQLs" On="uninstall" />
+              <RemoveFolder Id="RemoveComponents_Configuration_Environment_INT_RST" Directory="Components_Configuration_Environment_INT_RST" On="uninstall" />
+              <RemoveFolder Id="RemoveComponents_Configuration_Environment_INT_RST_SQLs" Directory="Components_Configuration_Environment_INT_RST_SQLs" On="uninstall" />
+              <RemoveFolder Id="RemoveComponents_Configuration_Environment_PROD" Directory="Components_Configuration_Environment_PROD" On="uninstall" />
+              <RemoveFolder Id="RemoveComponents_Configuration_Environment_PROD_CDE" Directory="Components_Configuration_Environment_PROD_CDE" On="uninstall" />
+              <RemoveFolder Id="RemoveComponents_Configuration_Environment_PROD_CDE_SQLs" Directory="Components_Configuration_Environment_PROD_CDE_SQLs" On="uninstall" />
+              <RemoveFolder Id="RemoveComponents_Configuration_Environment_PROD_RST" Directory="Components_Configuration_Environment_PROD_RST" On="uninstall" />
+              <RemoveFolder Id="RemoveComponents_Configuration_Environment_PROD_RST_SQLs" Directory="Components_Configuration_Environment_PROD_RST_SQLs" On="uninstall" />
+              <RemoveFolder Id="RemoveComponents_Configuration_Environment_PROD_OPQ" Directory="Components_Configuration_Environment_PROD_OPQ" On="uninstall" />
+              <RemoveFolder Id="RemoveComponents_Configuration_Environment_PROD_OPQ_SQLs" Directory="Components_Configuration_Environment_PROD_OPQ_SQLs" On="uninstall" />
+              <RemoveFolder Id="RemoveComponents_Configuration_Environment_PROD_FGH" Directory="Components_Configuration_Environment_PROD_FGH" On="uninstall" />
+              <RemoveFolder Id="RemoveComponents_Configuration_Environment_PROD_FGH_SQLs" Directory="Components_Configuration_Environment_PROD_FGH_SQLs" On="uninstall" />
+              <RemoveFolder Id="RemoveComponents_Configuration_Environment_PROD_IJK" Directory="Components_Configuration_Environment_PROD_IJK" On="uninstall" />
+              <RemoveFolder Id="RemoveComponents_Configuration_Environment_PROD_IJK_SQLs" Directory="Components_Configuration_Environment_PROD_IJK_SQLs" On="uninstall" />
+              <RemoveFolder Id="RemoveComponents_Configuration_Environment_PROD_LMN" Directory="Components_Configuration_Environment_PROD_LMN" On="uninstall" />
+              <RemoveFolder Id="RemoveComponents_Configuration_Environment_PROD_LMN_SQLs" Directory="Components_Configuration_Environment_PROD_LMN_SQLs" On="uninstall" />
+
+
+
+
+            </Component>
+
+          </Directory>
+        </Directory>
+      </Directory>
+      <Directory Id="ProgramMenuFolder">
+        <Directory Id="ApplicationProgramsFolder" Name="AbcAutoGen" />
+      </Directory>
+      <Directory Id="DesktopFolder" Name="Desktop" />
+    </Directory>
+  </Fragment>
+
+
+  <Fragment>
+    <DirectoryRef Id="ApplicationProgramsFolder">
+      <!--<Component Id="ApplicationShortcut" Guid="C5F39f40-704c-5678-897a-e98Ad36bf145">-->
+      <Component Id="ApplicationShortcut" Guid="*">
+
+        <Shortcut Id="ApplicationStartMenuShortcut" Name="AbcAutoGen" Target="[#AbcAutoGen.exe]" WorkingDirectory="APPLICATIONROOTDIRECTORY" Icon="logo.ico" />
+        <RemoveFolder Id="ApplicationProgramsFolder" On="uninstall" />
+        <RegistryValue Root="HKCU" Key="Software\MyOrg\AbcAutoGen" Name="installed" Type="integer" Value="1" KeyPath="yes" />
+      </Component>
+    </DirectoryRef>
+    <DirectoryRef Id="DesktopFolder">
+      <!--<Component Id="ApplicationShortcutDesktop" Guid="d5a39f40-704c-4357-897a-e98cd36bf173">-->
+        <Component Id="ApplicationShortcutDesktop" Guid="d5a39f40-704c-4355-897a-e98cd36bf124">
+        <Shortcut Id="ApplicationDesktopShortcut" Name="AbcAutoGen" Description="AbcAutoGen" Target="[#AbcAutoGen.exe]" WorkingDirectory="APPLICATIONROOTDIRECTORY" Icon="logo.ico" />
+        <RemoveFolder Id="DesktopFolder" On="uninstall" />
+        <RegistryValue Root="HKCU" Key="Software\MyOrg\AbcAutoGen" Name="installed" Type="integer" Value="1" KeyPath="yes" />
+      </Component>
+    </DirectoryRef>
+  </Fragment>
+
+
+  <Fragment>
+    <ComponentGroup Id="ProductComponents" Directory="INSTALLFOLDER">
+      <Component Id="ProductComponent">
+        <RegistryKey Root="HKCU" Key="Software\MyOrg\AbcAutoGen" Action="createAndRemoveOnUninstall">
+          <RegistryValue Type="string" Value="[INSTALLFOLDER]" />
+        </RegistryKey>
+      </Component>
+      <Component Id="AbcAutoGen.exe" Guid="eb96feb4-baf8-48a9-babd-4781780d13b9">
+        <File Id="AbcAutoGen.exe" Name="AbcAutoGen.exe" Source="$(var.AbcAutoGen_TargetDir)AbcAutoGen.exe" Checksum="no" />
+        <RegistryValue Root="HKCU" Key="Software\MyOrg\AbcAutoGen" Name="AbcAutoGen.exe" Value="AbcAutoGen.exe" Type="string" KeyPath="yes" />
+      </Component>
+      <Component Id="AbcAutoGen.exe.config" Guid="d1796831-1dd4-4c85-9f0d-42d52e300a06">
+        <File Id="AbcAutoGen.exe.config" Name="AbcAutoGen.exe.config" Source="$(var.AbcAutoGen_TargetDir)AbcAutoGen.exe.config" Checksum="no"/>
+        <RegistryValue Root="HKCU" Key="Software\MyOrg\AbcAutoGen" Name="AbcAutoGen.exe.config" Value="AbcAutoGen.exe.config" Type="string" KeyPath="yes" />
+      </Component>
+      <Component Id="DocumentFormat.OpenXml.dll" Guid="910cae80-b6f2-448d-989b-b2b227bdaa18">
+        <File Id="DocumentFormat.OpenXml.dll" Name="DocumentFormat.OpenXml.dll" Source="$(var.AbcAutoGen_TargetDir)DocumentFormat.OpenXml.dll" Checksum="no"/>
+        <RegistryValue Root="HKCU" Key="Software\MyOrg\AbcAutoGen" Name="DocumentFormat.OpenXml.dll" Value="DocumentFormat.OpenXml.dll" Type="string" KeyPath="yes" />
+      </Component>
+      <Component Id="EPPlus.dll" Guid="0df60b16-28dc-4e8a-b218-129c9fd623fc">
+        <File Id="EPPlus.dll" Name="EPPlus.dll" Source="$(var.AbcAutoGen_TargetDir)EPPlus.dll" Checksum="no" />
+        <RegistryValue Root="HKCU" Key="Software\MyOrg\AbcAutoGen" Name="EPPlus.dll" Value="EPPlus.dll" Type="string" KeyPath="yes" />
+      </Component>
+      <Component Id="Microsoft.WindowsAPICodePack.Shell.dll" Guid="ac068c71-ef56-457e-baf2-8bd75149bfc8">
+        <File Id="Microsoft.WindowsAPICodePack.Shell.dll" Name="Microsoft.WindowsAPICodePack.Shell.dll" Source="$(var.AbcAutoGen_TargetDir)Microsoft.WindowsAPICodePack.Shell.dll" Checksum="no"/>
+        <RegistryValue Root="HKCU" Key="Software\MyOrg\AbcAutoGen" Name="Microsoft.WindowsAPICodePack.Shell" Value="Microsoft.WindowsAPICodePack.Shell" Type="string" KeyPath="yes" />-->
+      </Component>
+      <Component Id="CsvHelper.dll" Guid="41b9b1d1-2389-4e83-8d46-16743993d118">
+        <File Id="CsvHelper.dll" Name="CsvHelper.dll" Source="$(var.AbcAutoGen_TargetDir)CsvHelper.dll" Checksum="no"/>
+        <RegistryValue Root="HKCU" Key="Software\MyOrg\AbcAutoGen" Name="CsvHelper" Value="CsvHelper" Type="string" KeyPath="yes" />
+      </Component>
+      <Component Id="System.Data.SQLite.dll" Guid="932de80e-cb75-463e-b257-02699325125d">
+        <RegistryValue Root="HKCU" Key="Software\MyOrg\AbcAutoGen" Name="InstallFolder" Value="[INSTALLFOLDER]" Type="string" KeyPath="yes" />
+        <File Id="System.Data.SQLite.dll" Name="System.Data.SQLite.dll" Source="$(var.AbcAutoGen_TargetDir)System.Data.SQLite.dll" Checksum="no"/>
+      </Component>
+      <Component Id="ExcelDataReader.dll" Guid="6fadaee9-a17b-4126-a443-90fd4355967f">
+        <RegistryValue Root="HKCU" Key="Software\MyOrg\AbcAutoGen" Name="InstallFolder" Value="[INSTALLFOLDER]" Type="string" KeyPath="yes" />
+        <File Id="ExcelDataReader.dll" Name="ExcelDataReader.dll" Source="$(var.AbcAutoGen_TargetDir)ExcelDataReader.dll" Checksum="no" />
+      </Component>
+      <Component Id="AutoUpdater.NET.dll" Guid="eead0e3c-db82-43c9-a2ca-637b2a0949b5">
+        <RegistryValue Root="HKCU" Key="Software\MyOrg\AbcAutoGen" Name="InstallFolder" Value="[INSTALLFOLDER]" Type="string" KeyPath="yes" />
+        <File Id="AutoUpdater.NET.dll" Name="AutoUpdater.NET.dll" Source="$(var.AbcAutoGen_TargetDir)AutoUpdater.NET.dll" Checksum="no"/>
+      </Component>
+      <Component Id="ExcelDataReader.DataSet.dll" Guid="43e40aeb-cec1-4707-bc7b-a9ce918805d4">
+        <RegistryValue Root="HKCU" Key="Software\MyOrg\AbcAutoGen" Name="InstallFolder" Value="[INSTALLFOLDER]" Type="string" KeyPath="yes" />
+        <File Id="ExcelDataReader.DataSet.dll" Name="ExcelDataReader.DataSet.dll" Source="$(var.AbcAutoGen_TargetDir)ExcelDataReader.DataSet.dll" Checksum="no"/>
+      </Component>
+      <Component Id="Microsoft.WindowsAPICodePack.dll" Guid="e3dacf9d-755b-43d4-941a-4f139a9db2dc">
+        <RegistryValue Root="HKCU" Key="Software\MyOrg\AbcAutoGen" Name="InstallFolder" Value="[INSTALLFOLDER]" Type="string" KeyPath="yes" />
+        <File Id="Microsoft.WindowsAPICodePack.dll" Name="Microsoft.WindowsAPICodePack.dll" Source="$(var.AbcAutoGen_TargetDir)Microsoft.WindowsAPICodePack.dll" Checksum="no"/>
+      </Component>
+      <Component Id="System.ValueTuple.dll" Guid="db560730-fc38-4aab-a88b-37c0bc6a5d36">
+        <RegistryValue Root="HKCU" Key="Software\MyOrg\AbcAutoGen" Name="InstallFolder" Value="[INSTALLFOLDER]" Type="string" KeyPath="yes" />
+        <File Id="System.ValueTuple.dll" Name="System.ValueTuple.dll" Source="$(var.AbcAutoGen_TargetDir)System.ValueTuple.dll" Checksum="no"/>
+      </Component>
+    </ComponentGroup>
+  </Fragment>
+
+  <Fragment>
+    <ComponentGroup Id="Components_Configuration_files" Directory="Components_Configuration">
+      <Component Id="Components_Configuration_DataMart.feature" Guid="3ed189b7-54d1-4b6e-9bda-a712f3d6fa9f">
+        <RegistryValue Root="HKCU" Key="Software\MyOrg\AbcAutoGen" Name="InstallFolder" Value="[INSTALLFOLDER]" Type="string" KeyPath="yes" />
+        <File Id="Components_Configuration_DataMart.feature" Name="DataMart.feature" Source="$(var.AbcAutoGen_TargetDir)Components\Configuration\DataMart.feature" />
+      </Component>
+      <Component Id="Components_Configuration_Extract.feature" Guid="9b48bb11-55c5-46cf-8c31-623cc18e00e9">
+        <RegistryValue Root="HKCU" Key="Software\MyOrg\AbcAutoGen" Name="InstallFolder" Value="[INSTALLFOLDER]" Type="string" KeyPath="yes" />
+        <File Id="Components_Configuration_Extract.feature" Name="Extract.feature" Source="$(var.AbcAutoGen_TargetDir)Components\Configuration\Extract.feature" />
+      </Component>
+    </ComponentGroup>
+  </Fragment>
+
+  <Fragment>
+    <ComponentGroup Id="Components_files" Directory="Components">
+      <Component Id="Components_Example_InputFileOfExtract.xlsx" Guid="8417cb48-c522-4bc0-86f6-80d17b304b0f">
+        <RegistryValue Root="HKCU" Key="Software\MyOrg\AbcAutoGen" Name="InstallFolder" Value="[INSTALLFOLDER]" Type="string" KeyPath="yes" />
+        <File Id="Components_Example_InputFileOfExtract.xlsx" Name="Example_InputFileOfExtract.xlsx" Source="$(var.AbcAutoGen_TargetDir)Components\Example_InputFileOfExtract.xlsx" />
+      </Component>
+      <Component Id="Components_Example_InputFileOfDataMart.xlsx" Guid="fdba61fe-c890-485a-87d0-07fdb033af71">
+        <RegistryValue Root="HKCU" Key="Software\MyOrg\AbcAutoGen" Name="InstallFolder" Value="[INSTALLFOLDER]" Type="string" KeyPath="yes" />
+        <File Id="Components_Example_InputFileOfDataMart.xlsx" Name="Example_InputFileOfDataMart.xlsx" Source="$(var.AbcAutoGen_TargetDir)Components\Example_InputFileOfDataMart.xlsx" />
+      </Component>
+      <Component Id="Components_command_line.txt" Guid="f05ca386-74fc-4de0-a1ca-edb1072f4fc3">
+        <RegistryValue Root="HKCU" Key="Software\MyOrg\AbcAutoGen" Name="InstallFolder" Value="[INSTALLFOLDER]" Type="string" KeyPath="yes" />
+      </Component>
+       
+      <Component Id="Components_CDERegressionTool_v1.0.6.jar" Guid="cfd56e84-e4dc-4b1a-841f-5f8944e889a0">
+        <File Id="Components_CDERegressionTool_v1.0.6.jar" Name="CDERegressionTool-v1.0.6.jar" Source="$(var.AbcAutoGen_TargetDir)Components\CDERegressionTool-v1.0.6.jar" />
+        <RegistryValue Root="HKCU" Key="Software\MyOrg\AbcAutoGen" Name="Components_CDERegressionTool" Value="Components_CDERegressionTool" Type="string" KeyPath="yes" />
+      </Component>
+    </ComponentGroup>
+  </Fragment>
+
+  <Fragment>
+    <ComponentGroup Id="Components_Configuration_Environment_BUAT_CDE_files" Directory="Components_Configuration_Environment_BUAT_CDE">
+      <Component Id="Components_Configuration_Environment_BUAT_CDE_Config.txt" Guid="07da51d9-1a21-4954-a37d-c6febe204e17">
+        <RegistryValue Root="HKCU" Key="Software\MyOrg\AbcAutoGen" Name="InstallFolder" Value="[INSTALLFOLDER]" Type="string" KeyPath="yes" />
+        <File Id="Components_Configuration_Environment_BUAT_CDE_Config.txt" Name="Config.txt" Source="$(var.AbcAutoGen_TargetDir)Components\Configuration\Environment\BUAT\CDE\Config.txt" />
+      </Component>
+    </ComponentGroup>
+  </Fragment>
+
+  <Fragment>
+    <ComponentGroup Id="Components_Configuration_Environment_CUAT_CDE_files" Directory="Components_Configuration_Environment_CUAT_CDE">
+      <Component Id="Components_Configuration_Environment_CUAT_CDE_Config.txt" Guid="3567b2a2-4d52-4945-bb5b-71dcf29788e4">
+        <RegistryValue Root="HKCU" Key="Software\MyOrg\AbcAutoGen" Name="InstallFolder" Value="[INSTALLFOLDER]" Type="string" KeyPath="yes" />
+        <File Id="Components_Configuration_Environment_CUAT_CDE_Config.txt" Name="Config.txt" Source="$(var.AbcAutoGen_TargetDir)Components\Configuration\Environment\CUAT\CDE\Config.txt" />
+      </Component>
+    </ComponentGroup>
+  </Fragment>
+
+  <Fragment>
+    <ComponentGroup Id="Components_Configuration_Environment_INT_CDE_files" Directory="Components_Configuration_Environment_INT_CDE">
+      <Component Id="Components_Configuration_Environment_INT_CDE_Config.txt" Guid="46c6bcb2-3175-49d4-986e-44c667f95164">
+        <RegistryValue Root="HKCU" Key="Software\MyOrg\AbcAutoGen" Name="InstallFolder" Value="[INSTALLFOLDER]" Type="string" KeyPath="yes" />
+        <File Id="Components_Configuration_Environment_INT_CDE_Config.txt" Name="Config.txt" Source="$(var.AbcAutoGen_TargetDir)Components\Configuration\Environment\INT\CDE\Config.txt" />
+      </Component>
+    </ComponentGroup>
+  </Fragment>
+
+  <Fragment>
+    <ComponentGroup Id="Components_Configuration_Environment_PROD_CDE_files" Directory="Components_Configuration_Environment_PROD_CDE">
+      <Component Id="Components_Configuration_Environment_PROD_CDE_Config.txt" Guid="cad9def8-b9b4-4742-85e1-91a78475409d">
+        <RegistryValue Root="HKCU" Key="Software\MyOrg\AbcAutoGen" Name="InstallFolder" Value="[INSTALLFOLDER]" Type="string" KeyPath="yes" />
+        <File Id="Components_Configuration_Environment_PROD_CDE_Config.txt" Name="Config.txt" Source="$(var.AbcAutoGen_TargetDir)Components\Configuration\Environment\PROD\CDE\Config.txt" />
+      </Component>
+    </ComponentGroup>
+  </Fragment>
+
+  <Fragment>
+    <ComponentGroup Id="Components_Configuration_Environment_BUAT_CDE_SQLs_files" Directory="Components_Configuration_Environment_BUAT_CDE_SQLs">
+      <Component Id="Components_Configuration_Environment_BUAT_CDE_SQLs_BROKER_REFERENCE.txt" Guid="cc859ddd-426b-4732-a665-6b0d480d3107">
+        <RegistryValue Root="HKCU" Key="Software\MyOrg\AbcAutoGen" Name="InstallFolder" Value="[INSTALLFOLDER]" Type="string" KeyPath="yes" />
+        <File Id="Components_Configuration_Environment_BUAT_CDE_SQLs_BROKER_REFERENCE.txt" Name="BROKER_REFERENCE.txt" Source="$(var.AbcAutoGen_TargetDir)Components\Configuration\Environment\BUAT\CDE\SQLs\BROKER_REFERENCE.txt" />
+      </Component>
+      <Component Id="Components_Configuration_Environment_BUAT_CDE_SQLs_NPS_CA_INFO_DAILY_NEA.txt" Guid="f3d1c801-71d7-4dd9-85a3-367c2f41569c">
+        <RegistryValue Root="HKCU" Key="Software\MyOrg\AbcAutoGen" Name="InstallFolder" Value="[INSTALLFOLDER]" Type="string" KeyPath="yes" />
+        <File Id="Components_Configuration_Environment_BUAT_CDE_SQLs_NPS_CA_INFO_DAILY_NEA.txt" Name="NPS_CA_INFO_DAILY_NEA.txt" Source="$(var.AbcAutoGen_TargetDir)Components\Configuration\Environment\BUAT\CDE\SQLs\NPS_CA_INFO_DAILY_NEA.txt" />
+      </Component>
+    </ComponentGroup>
+  </Fragment>
+
+  <Fragment>
+    <ComponentGroup Id="Components_Configuration_Environment_BUAT_FGH_files" Directory="Components_Configuration_Environment_BUAT_FGH">
+      <Component Id="Components_Configuration_Environment_BUAT_FGH_Config.txt" Guid="868c088c-defd-4ce7-b7ac-87a28b97e06d">
+        <File Id="Components_Configuration_Environment_BUAT_FGH_Config.txt" Name="Config.txt" Source="$(var.AbcAutoGen_TargetDir)Components\Configuration\Environment\BUAT\FGH\Config.txt" />
+        <RegistryValue Root="HKCU" Key="Software\MyOrg\AbcAutoGen" Name="Components_Configuration_Environment_BUAT_FGH_Config" Value="Components_Configuration_Environment_BUAT_FGH_Config" Type="string" KeyPath="yes" />
+      </Component>
+    </ComponentGroup>
+  </Fragment>
+
+  <Fragment>
+    <ComponentGroup Id="Components_Configuration_Environment_BUAT_FGH_SQLs_files" Directory="Components_Configuration_Environment_BUAT_FGH_SQLs">
+      <Component Id="Components_Configuration_Environment_BUAT_FGH_SQLs_add_new_mart_sqls_here_follow_example.txt" Guid="b4a33340-8cd0-4c4b-a9a9-ea49767004da">
+        <File Id="Components_Configuration_Environment_BUAT_FGH_SQLs_add_new_mart_sqls_here_follow_example.txt" Name="add new mart sqls here follow example.txt" Source="$(var.AbcAutoGen_TargetDir)Components\Configuration\Environment\BUAT\FGH\SQLs\add new mart sqls here follow example.txt" />
+        <RegistryValue Root="HKCU" Key="Software\MyOrg\AbcAutoGen" Name="Components_Configuration_Environment_BUAT_FGH_SQLs_add_new_mart_sqls_here_follow_example" Value="Components_Configuration_Environment_BUAT_FGH_SQLs_add_new_mart_sqls_here_follow_example" Type="string" KeyPath="yes" />
+      </Component>
+      <Component Id="Components_Configuration_Environment_BUAT_FGH_SQLs_BROKER_REFERENCE.txt" Guid="dacd6123-8b6c-4bd9-a9ab-d70255bd96b4">
+        <File Id="Components_Configuration_Environment_BUAT_FGH_SQLs_BROKER_REFERENCE.txt" Name="BROKER_REFERENCE.txt" Source="$(var.AbcAutoGen_TargetDir)Components\Configuration\Environment\BUAT\FGH\SQLs\BROKER_REFERENCE.txt" />
+        <RegistryValue Root="HKCU" Key="Software\MyOrg\AbcAutoGen" Name="Components_Configuration_Environment_BUAT_FGH_SQLs_BROKER_REFERENCE" Value="Components_Configuration_Environment_BUAT_FGH_SQLs_BROKER_REFERENCE" Type="string" KeyPath="yes" />
+      </Component>
+    </ComponentGroup>
+  </Fragment>
+
+  <Fragment>
+    <ComponentGroup Id="Components_Configuration_Environment_BUAT_IJK_files" Directory="Components_Configuration_Environment_BUAT_IJK">
+      <Component Id="Components_Configuration_Environment_BUAT_IJK_Config.txt" Guid="6e5bf83f-fbad-425c-9cd0-d0aec2d4d054">
+        <File Id="Components_Configuration_Environment_BUAT_IJK_Config.txt" Name="Config.txt" Source="$(var.AbcAutoGen_TargetDir)Components\Configuration\Environment\BUAT\IJK\Config.txt" />
+        <RegistryValue Root="HKCU" Key="Software\MyOrg\AbcAutoGen" Name="Components_Configuration_Environment_BUAT_IJK_Config" Value="Components_Configuration_Environment_BUAT_IJK_Config" Type="string" KeyPath="yes" />
+      </Component>
+    </ComponentGroup>
+  </Fragment>
+
+  <Fragment>
+    <ComponentGroup Id="Components_Configuration_Environment_BUAT_IJK_SQLs_files" Directory="Components_Configuration_Environment_BUAT_IJK_SQLs">
+      <Component Id="Components_Configuration_Environment_BUAT_IJK_SQLs_add_new_mart_sqls_here_follow_example.txt" Guid="9800f140-dc04-4d9d-bb18-0ca20f626f63">
+        <File Id="Components_Configuration_Environment_BUAT_IJK_SQLs_add_new_mart_sqls_here_follow_example.txt" Name="add new mart sqls here follow example.txt" Source="$(var.AbcAutoGen_TargetDir)Components\Configuration\Environment\BUAT\IJK\SQLs\add new mart sqls here follow example.txt" />
+        <RegistryValue Root="HKCU" Key="Software\MyOrg\AbcAutoGen" Name="Components_Configuration_Environment_BUAT_IJK_SQLs_add_new_mart_sqls_here_follow_example" Value="Components_Configuration_Environment_BUAT_IJK_SQLs_add_new_mart_sqls_here_follow_example" Type="string" KeyPath="yes" />
+      </Component>
+    </ComponentGroup>
+  </Fragment>
+
+  <Fragment>
+    <ComponentGroup Id="Components_Configuration_Environment_BUAT_LMN_files" Directory="Components_Configuration_Environment_BUAT_LMN">
+      <Component Id="Components_Configuration_Environment_BUAT_LMN_Config.txt" Guid="9c2eea48-ee0b-455e-a9ad-67eff04a4b0b">
+        <File Id="Components_Configuration_Environment_BUAT_LMN_Config.txt" Name="Config.txt" Source="$(var.AbcAutoGen_TargetDir)Components\Configuration\Environment\BUAT\LMN\Config.txt" />
+        <RegistryValue Root="HKCU" Key="Software\MyOrg\AbcAutoGen" Name="Components_Configuration_Environment_BUAT_LMN_Config" Value="Components_Configuration_Environment_BUAT_LMN_Config" Type="string" KeyPath="yes" />
+      </Component>
+    </ComponentGroup>
+  </Fragment>
+
+  <Fragment>
+    <ComponentGroup Id="Components_Configuration_Environment_BUAT_LMN_SQLs_files" Directory="Components_Configuration_Environment_BUAT_LMN_SQLs">
+      <Component Id="Components_Configuration_Environment_BUAT_LMN_SQLs_add_new_mart_sqls_here_follow_example.txt" Guid="16df6f8d-bcfc-4d36-a8f1-cadb1c2e2b37">
+        <File Id="Components_Configuration_Environment_BUAT_LMN_SQLs_add_new_mart_sqls_here_follow_example.txt" Name="add new mart sqls here follow example.txt" Source="$(var.AbcAutoGen_TargetDir)Components\Configuration\Environment\BUAT\LMN\SQLs\add new mart sqls here follow example.txt" />
+        <RegistryValue Root="HKCU" Key="Software\MyOrg\AbcAutoGen" Name="Components_Configuration_Environment_BUAT_LMN_SQLs_add_new_mart_sqls_here_follow_example" Value="Components_Configuration_Environment_BUAT_LMN_SQLs_add_new_mart_sqls_here_follow_example" Type="string" KeyPath="yes" />
+      </Component>
+    </ComponentGroup>
+  </Fragment>
+
+  <Fragment>
+    <ComponentGroup Id="Components_Configuration_Environment_BUAT_OPQ_files" Directory="Components_Configuration_Environment_BUAT_OPQ">
+      <Component Id="Components_Configuration_Environment_BUAT_OPQ_Config.txt" Guid="64783e7c-e36e-4db8-a972-27630dbad863">
+        <File Id="Components_Configuration_Environment_BUAT_OPQ_Config.txt" Name="Config.txt" Source="$(var.AbcAutoGen_TargetDir)Components\Configuration\Environment\BUAT\OPQ\Config.txt" />
+        <RegistryValue Root="HKCU" Key="Software\MyOrg\AbcAutoGen" Value="Components_Configuration_Environment_BUAT_OPQ_Config" Type="string" KeyPath="yes" />
+      </Component>
+    </ComponentGroup>
+  </Fragment>
+
+  <Fragment>
+    <ComponentGroup Id="Components_Configuration_Environment_BUAT_OPQ_SQLs_files" Directory="Components_Configuration_Environment_BUAT_OPQ_SQLs">
+      <Component Id="Components_Configuration_Environment_BUAT_OPQ_SQLs_add_new_mart_sqls_here_follow_example.txt" Guid="3b55db89-fa56-4850-a5fd-27bb3e2a83b8">
+        <File Id="Components_Configuration_Environment_BUAT_OPQ_SQLs_add_new_mart_sqls_here_follow_example.txt" Name="add new mart sqls here follow example.txt" Source="$(var.AbcAutoGen_TargetDir)Components\Configuration\Environment\BUAT\OPQ\SQLs\add new mart sqls here follow example.txt" />
+        <RegistryValue Root="HKCU" Key="Software\MyOrg\AbcAutoGen" Value="Components_Configuration_Environment_BUAT_OPQ_SQLs_add_new_mart_sqls_here_follow_example" Type="string" KeyPath="yes" />
+      </Component>
+    </ComponentGroup>
+  </Fragment>
+
+  <Fragment>
+    <ComponentGroup Id="Components_Configuration_Environment_BUAT_RST_files" Directory="Components_Configuration_Environment_BUAT_RST">
+      <Component Id="Components_Configuration_Environment_BUAT_RST_Config.txt" Guid="7f4887a6-004f-4288-be71-31005a14385a">
+        <File Id="Components_Configuration_Environment_BUAT_RST_Config.txt" Name="Config.txt" Source="$(var.AbcAutoGen_TargetDir)Components\Configuration\Environment\BUAT\RST\Config.txt" />
+        <RegistryValue Root="HKCU" Key="Software\MyOrg\AbcAutoGen" Value="Components_Configuration_Environment_BUAT_RST_Config" Type="string" KeyPath="yes" />
+      </Component>
+    </ComponentGroup>
+  </Fragment>
+
+  <Fragment>
+    <ComponentGroup Id="Components_Configuration_Environment_BUAT_RST_SQLs_files" Directory="Components_Configuration_Environment_BUAT_RST_SQLs">
+      <Component Id="Components_Configuration_Environment_BUAT_RST_SQLs_add_new_mart_sqls_here_follow_example.txt" Guid="e0defb68-c655-43b3-b944-a93c1fef8af6">
+        <File Id="Components_Configuration_Environment_BUAT_RST_SQLs_add_new_mart_sqls_here_follow_example.txt" Name="add new mart sqls here follow example.txt" Source="$(var.AbcAutoGen_TargetDir)Components\Configuration\Environment\BUAT\RST\SQLs\add new mart sqls here follow example.txt" />
+        <RegistryValue Root="HKCU" Key="Software\MyOrg\AbcAutoGen" Value="Components_Configuration_Environment_BUAT_RST_SQLs_add_new_mart_sqls_here_follow_example" Type="string" KeyPath="yes" />
+      </Component>
+    </ComponentGroup>
+  </Fragment>
+
+  <Fragment>
+    <ComponentGroup Id="Components_Configuration_Environment_CUAT_FGH_files" Directory="Components_Configuration_Environment_CUAT_FGH">
+      <Component Id="Components_Configuration_Environment_CUAT_FGH_Config.txt" Guid="31e17031-267d-430f-b0aa-1780ef21b7c9">
+        <File Id="Components_Configuration_Environment_CUAT_FGH_Config.txt" Name="Config.txt" Source="$(var.AbcAutoGen_TargetDir)Components\Configuration\Environment\CUAT\FGH\Config.txt" />
+        <RegistryValue Root="HKCU" Key="Software\MyOrg\AbcAutoGen" Value="Components_Configuration_Environment_CUAT_FGH_Config" Type="string" KeyPath="yes" />
+      </Component>
+    </ComponentGroup>
+  </Fragment>
+
+  <Fragment>
+    <ComponentGroup Id="Components_Configuration_Environment_CUAT_FGH_SQLs_files" Directory="Components_Configuration_Environment_CUAT_FGH_SQLs">
+      <Component Id="Components_Configuration_Environment_CUAT_FGH_SQLs_add_new_mart_sqls_here_follow_example.txt" Guid="648001ae-82a0-4d65-ab7c-b0e7d7145790">
+        <File Id="Components_Configuration_Environment_CUAT_FGH_SQLs_add_new_mart_sqls_here_follow_example.txt" Name="add new mart sqls here follow example.txt" Source="$(var.AbcAutoGen_TargetDir)Components\Configuration\Environment\CUAT\FGH\SQLs\add new mart sqls here follow example.txt" />
+        <RegistryValue Root="HKCU" Key="Software\MyOrg\AbcAutoGen" Value="Components_Configuration_Environment_CUAT_FGH_SQLs_add_new_mart_sqls_here_follow_example" Type="string" KeyPath="yes" />
+      </Component>
+      <Component Id="Components_Configuration_Environment_CUAT_FGH_SQLs_BROKER_REFERENCE.txt" Guid="cd1304b9-f2d6-40f4-9153-bf86a5c132f8">
+        <File Id="Components_Configuration_Environment_CUAT_FGH_SQLs_BROKER_REFERENCE.txt" Name="BROKER_REFERENCE.txt" Source="$(var.AbcAutoGen_TargetDir)Components\Configuration\Environment\CUAT\FGH\SQLs\BROKER_REFERENCE.txt" />
+        <RegistryValue Root="HKCU" Key="Software\MyOrg\AbcAutoGen" Value="Components_Configuration_Environment_CUAT_FGH_SQLs_BROKER_REFERENCE" Type="string" KeyPath="yes" />
+      </Component>
+    </ComponentGroup>
+  </Fragment>
+
+  <Fragment>
+    <ComponentGroup Id="Components_Configuration_Environment_CUAT_IJK_files" Directory="Components_Configuration_Environment_CUAT_IJK">
+      <Component Id="Components_Configuration_Environment_CUAT_IJK_Config.txt" Guid="5938b2c6-c058-4c5c-9624-db400c7a1c8c">
+        <File Id="Components_Configuration_Environment_CUAT_IJK_Config.txt" Name="Config.txt" Source="$(var.AbcAutoGen_TargetDir)Components\Configuration\Environment\CUAT\IJK\Config.txt" />
+        <RegistryValue Root="HKCU" Key="Software\MyOrg\AbcAutoGen" Value="Components_Configuration_Environment_CUAT_IJK_Config" Type="string" KeyPath="yes" />
+      </Component>
+    </ComponentGroup>
+  </Fragment>
+
+  <Fragment>
+    <ComponentGroup Id="Components_Configuration_Environment_CUAT_LMN_files" Directory="Components_Configuration_Environment_CUAT_LMN">
+      <Component Id="Components_Configuration_Environment_CUAT_LMN_Config.txt" Guid="61533449-2337-4a7b-9994-b7d679e4687d">
+        <File Id="Components_Configuration_Environment_CUAT_LMN_Config.txt" Name="Config.txt" Source="$(var.AbcAutoGen_TargetDir)Components\Configuration\Environment\CUAT\LMN\Config.txt" />
+        <RegistryValue Root="HKCU" Key="Software\MyOrg\AbcAutoGen" Value="Components_Configuration_Environment_CUAT_LMN_Config" Type="string" KeyPath="yes" />
+      </Component>
+    </ComponentGroup>
+  </Fragment>
+
+  <Fragment>
+    <ComponentGroup Id="Components_Configuration_Environment_CUAT_OPQ_SQLs_files" Directory="Components_Configuration_Environment_CUAT_OPQ_SQLs">
+      <Component Id="Components_Configuration_Environment_CUAT_OPQ_SQLs_add_new_mart_sqls_here_follow_example.txt" Guid="1d0156bf-7c74-4d8b-b7d6-91423a6f6855">
+        <File Id="Components_Configuration_Environment_CUAT_OPQ_SQLs_add_new_mart_sqls_here_follow_example.txt" Name="add new mart sqls here follow example.txt" Source="$(var.AbcAutoGen_TargetDir)Components\Configuration\Environment\CUAT\OPQ\SQLs\add new mart sqls here follow example.txt" />
+        <RegistryValue Root="HKCU" Key="Software\MyOrg\AbcAutoGen" Value="Components_Configuration_Environment_CUAT_OPQ_SQLs_add_new_mart_sqls_here_follow_example" Type="string" KeyPath="yes" />
+      </Component>
+    </ComponentGroup>
+  </Fragment>
+
+  <Fragment>
+    <ComponentGroup Id="Components_Configuration_Environment_CUAT_OPQ_files" Directory="Components_Configuration_Environment_CUAT_OPQ">
+      <Component Id="Components_Configuration_Environment_CUAT_OPQ_Config.txt" Guid="8bb67f32-728f-4ca6-ac56-68898a96dd52">
+        <File Id="Components_Configuration_Environment_CUAT_OPQ_Config.txt" Name="Config.txt" Source="$(var.AbcAutoGen_TargetDir)Components\Configuration\Environment\CUAT\OPQ\Config.txt" />
+        <RegistryValue Root="HKCU" Key="Software\MyOrg\AbcAutoGen" Value="Components_Configuration_Environment_CUAT_OPQ_Config" Type="string" KeyPath="yes" />
+      </Component>
+    </ComponentGroup>
+  </Fragment>
+
+  <Fragment>
+    <ComponentGroup Id="Components_Configuration_Environment_CUAT_RST_files" Directory="Components_Configuration_Environment_CUAT_RST">
+      <Component Id="Components_Configuration_Environment_CUAT_RST_Config.txt" Guid="4514ba34-97b1-4105-94b6-78c2cf293d31">
+        <File Id="Components_Configuration_Environment_CUAT_RST_Config.txt" Name="Config.txt" Source="$(var.AbcAutoGen_TargetDir)Components\Configuration\Environment\CUAT\RST\Config.txt" />
+        <RegistryValue Root="HKCU" Key="Software\MyOrg\AbcAutoGen" Value="Components_Configuration_Environment_CUAT_RST_Config" Type="string" KeyPath="yes" />
+      </Component>
+    </ComponentGroup>
+  </Fragment>
+
+  <Fragment>
+    <ComponentGroup Id="Components_Configuration_Environment_CUAT_RST_SQLs_files" Directory="Components_Configuration_Environment_CUAT_RST_SQLs">
+      <Component Id="Components_Configuration_Environment_CUAT_RST_SQLs_add_new_mart_sqls_here_follow_example.txt" Guid="8a43c2d9-bf8a-41b6-8eff-5e7ed831f8ec">
+        <File Id="Components_Configuration_Environment_CUAT_RST_SQLs_add_new_mart_sqls_here_follow_example.txt" Name="add new mart sqls here follow example.txt" Source="$(var.AbcAutoGen_TargetDir)Components\Configuration\Environment\CUAT\RST\SQLs\add new mart sqls here follow example.txt" />
+        <RegistryValue Root="HKCU" Key="Software\MyOrg\AbcAutoGen" Value="Components_Configuration_Environment_CUAT_RST_SQLs_add_new_mart_sqls_here_follow_example" Type="string" KeyPath="yes" />
+      </Component>
+    </ComponentGroup>
+  </Fragment>
+
+  <Fragment>
+    <ComponentGroup Id="Components_Configuration_Environment_INT_IJK_files" Directory="Components_Configuration_Environment_INT_IJK">
+      <Component Id="Components_Configuration_Environment_INT_IJK_Config.txt" Guid="6c46474c-c787-4ac0-a444-01f883d81082">
+        <File Id="Components_Configuration_Environment_INT_IJK_Config.txt" Name="Config.txt" Source="$(var.AbcAutoGen_TargetDir)Components\Configuration\Environment\INT\IJK\Config.txt" />
+        <RegistryValue Root="HKCU" Key="Software\MyOrg\AbcAutoGen" Value="Components_Configuration_Environment_INT_IJK_Config" Type="string" KeyPath="yes" />
+      </Component>
+    </ComponentGroup>
+  </Fragment>
+
+  <Fragment>
+    <ComponentGroup Id="Components_Configuration_Environment_INT_LMN_files" Directory="Components_Configuration_Environment_INT_LMN">
+      <Component Id="Components_Configuration_Environment_INT_LMN_Config.txt" Guid="eb4aa550-687d-4e78-9c95-1afb8f158715">
+        <File Id="Components_Configuration_Environment_INT_LMN_Config.txt" Name="Config.txt" Source="$(var.AbcAutoGen_TargetDir)Components\Configuration\Environment\INT\LMN\Config.txt" />
+        <RegistryValue Root="HKCU" Key="Software\MyOrg\AbcAutoGen" Value="Components_Configuration_Environment_INT_LMN_Config" Type="string" KeyPath="yes" />
+      </Component>
+    </ComponentGroup>
+  </Fragment>
+
+  <Fragment>
+    <ComponentGroup Id="Components_Configuration_Environment_INT_OPQ_files" Directory="Components_Configuration_Environment_INT_OPQ">
+      <Component Id="Components_Configuration_Environment_INT_OPQ_Config.txt" Guid="d920ea9f-1957-4c8d-83f6-c671d498ead7">
+        <File Id="Components_Configuration_Environment_INT_OPQ_Config.txt" Name="Config.txt" Source="$(var.AbcAutoGen_TargetDir)Components\Configuration\Environment\INT\OPQ\Config.txt" />
+        <RegistryValue Root="HKCU" Key="Software\MyOrg\AbcAutoGen" Value="Components_Configuration_Environment_INT_OPQ_Config" Type="string" KeyPath="yes" />
+      </Component>
+    </ComponentGroup>
+  </Fragment>
+
+  <Fragment>
+    <ComponentGroup Id="Components_Configuration_Environment_INT_OPQ_SQLs_files" Directory="Components_Configuration_Environment_INT_OPQ_SQLs">
+      <Component Id="Components_Configuration_Environment_INT_OPQ_SQLs_add_new_mart_sqls_here_follow_example.txt" Guid="429313f7-5070-4b04-973f-cdec9c464f10">
+        <File Id="Components_Configuration_Environment_INT_OPQ_SQLs_add_new_mart_sqls_here_follow_example.txt" Name="add new mart sqls here follow example.txt" Source="$(var.AbcAutoGen_TargetDir)Components\Configuration\Environment\INT\OPQ\SQLs\add new mart sqls here follow example.txt" />
+        <RegistryValue Root="HKCU" Key="Software\MyOrg\AbcAutoGen" Value="Components_Configuration_Environment_INT_OPQ_SQLs_add_new_mart_sqls_here_follow_example" Type="string" KeyPath="yes" />
+      </Component>
+    </ComponentGroup>
+  </Fragment>
+
+  <Fragment>
+    <ComponentGroup Id="Components_Configuration_Environment_INT_RST_files" Directory="Components_Configuration_Environment_INT_RST">
+      <Component Id="Components_Configuration_Environment_INT_RST_Config.txt" Guid="0d536dba-17cf-40ca-911b-25c14331156e">
+        <File Id="Components_Configuration_Environment_INT_RST_Config.txt" Name="Config.txt" Source="$(var.AbcAutoGen_TargetDir)Components\Configuration\Environment\INT\RST\Config.txt" />
+        <RegistryValue Root="HKCU" Key="Software\MyOrg\AbcAutoGen" Value="Components_Configuration_Environment_INT_RST_Config" Type="string" KeyPath="yes" />
+      </Component>
+    </ComponentGroup>
+  </Fragment>
+
+  <Fragment>
+    <ComponentGroup Id="Components_Configuration_Environment_INT_RST_SQLs_files" Directory="Components_Configuration_Environment_INT_RST_SQLs">
+      <Component Id="Components_Configuration_Environment_INT_RST_SQLs_add_new_mart_sqls_here_follow_example.txt" Guid="553aace0-cbda-43a6-9ff1-204e71b6f0bf">
+        <File Id="Components_Configuration_Environment_INT_RST_SQLs_add_new_mart_sqls_here_follow_example.txt" Name="add new mart sqls here follow example.txt" Source="$(var.AbcAutoGen_TargetDir)Components\Configuration\Environment\INT\RST\SQLs\add new mart sqls here follow example.txt" />
+        <RegistryValue Root="HKCU" Key="Software\MyOrg\AbcAutoGen" Value="Components_Configuration_Environment_INT_RST_SQLs_add_new_mart_sqls_here_follow_example" Type="string" KeyPath="yes" />
+      </Component>
+      <Component Id="Components_Configuration_Environment_INT_RST_SQLs_BROKER_REFERENCE.txt" Guid="ddda5aed-6d36-4a05-8f52-034b1a54f532">
+        <File Id="Components_Configuration_Environment_INT_RST_SQLs_BROKER_REFERENCE.txt" Name="BROKER_REFERENCE.txt" Source="$(var.AbcAutoGen_TargetDir)Components\Configuration\Environment\INT\RST\SQLs\BROKER_REFERENCE.txt" />
+        <RegistryValue Root="HKCU" Key="Software\MyOrg\AbcAutoGen" Value="Components_Configuration_Environment_INT_RST_SQLs_BROKER_REFERENCE" Type="string" KeyPath="yes" />
+      </Component>
+    </ComponentGroup>
+  </Fragment>
+
+  <Fragment>
+    <ComponentGroup Id="Components_Configuration_Environment_PROD_FGH_files" Directory="Components_Configuration_Environment_PROD_FGH">
+      <Component Id="Components_Configuration_Environment_PROD_FGH_Config.txt" Guid="adb09b21-f8b3-4a94-87f7-a3baf261d511">
+        <File Id="Components_Configuration_Environment_PROD_FGH_Config.txt" Name="Config.txt" Source="$(var.AbcAutoGen_TargetDir)Components\Configuration\Environment\PROD\FGH\Config.txt" />
+        <RegistryValue Root="HKCU" Key="Software\MyOrg\AbcAutoGen" Value="Components_Configuration_Environment_PROD_FGH_Config" Type="string" KeyPath="yes" />
+      </Component>
+    </ComponentGroup>
+  </Fragment>
+
+  <Fragment>
+    <ComponentGroup Id="Components_Configuration_Environment_PROD_FGH_SQLs_files" Directory="Components_Configuration_Environment_PROD_FGH_SQLs">
+      <Component Id="Components_Configuration_Environment_PROD_FGH_SQLs_add_new_mart_sqls_here_follow_example.txt" Guid="52ecc533-bc41-4d28-9c72-f83e7669d746">
+        <File Id="Components_Configuration_Environment_PROD_FGH_SQLs_add_new_mart_sqls_here_follow_example.txt" Name="add new mart sqls here follow example.txt" Source="$(var.AbcAutoGen_TargetDir)Components\Configuration\Environment\PROD\FGH\SQLs\add new mart sqls here follow example.txt" />
+        <RegistryValue Root="HKCU" Key="Software\MyOrg\AbcAutoGen" Value="Components_Configuration_Environment_PROD_FGH_SQLs_add_new_mart_sqls_here_follow_example" Type="string" KeyPath="yes" />
+      </Component>
+      <Component Id="Components_Configuration_Environment_PROD_FGH_SQLs_BROKER_REFERENCE.txt" Guid="cb8e7afb-0051-4d1e-99c4-6a68f4ff2b5d">
+        <File Id="Components_Configuration_Environment_PROD_FGH_SQLs_BROKER_REFERENCE.txt" Name="BROKER_REFERENCE.txt" Source="$(var.AbcAutoGen_TargetDir)Components\Configuration\Environment\PROD\FGH\SQLs\BROKER_REFERENCE.txt" />
+        <RegistryValue Root="HKCU" Key="Software\MyOrg\AbcAutoGen" Value="Components_Configuration_Environment_PROD_FGH_SQLs_BROKER_REFERENCE" Type="string" KeyPath="yes" />
+      </Component>
+    </ComponentGroup>
+  </Fragment>
+
+  <Fragment>
+    <ComponentGroup Id="Components_Configuration_Environment_PROD_LMN_files" Directory="Components_Configuration_Environment_PROD_LMN">
+      <Component Id="Components_Configuration_Environment_PROD_LMN_Config.txt" Guid="59e5bcc5-f4fd-49d9-bf68-a5cd9ff0f5ad">
+        <File Id="Components_Configuration_Environment_PROD_LMN_Config.txt" Name="Config.txt" Source="$(var.AbcAutoGen_TargetDir)Components\Configuration\Environment\PROD\LMN\Config.txt" />
+        <RegistryValue Root="HKCU" Key="Software\MyOrg\AbcAutoGen" Value="Components_Configuration_Environment_PROD_LMN_Config" Type="string" KeyPath="yes" />
+      </Component>
+    </ComponentGroup>
+  </Fragment>
+
+  <Fragment>
+    <ComponentGroup Id="Components_Configuration_Environment_PROD_IJK_files" Directory="Components_Configuration_Environment_PROD_IJK">
+      <Component Id="Components_Configuration_Environment_PROD_IJK_Config.txt" Guid="4fd7c0fe-41eb-40af-8455-6c50af61306a">
+        <File Id="Components_Configuration_Environment_PROD_IJK_Config.txt" Name="Config.txt" Source="$(var.AbcAutoGen_TargetDir)Components\Configuration\Environment\PROD\IJK\Config.txt" />
+        <RegistryValue Root="HKCU" Key="Software\MyOrg\AbcAutoGen" Value="Components_Configuration_Environment_PROD_IJK_Config" Type="string" KeyPath="yes" />
+      </Component>
+    </ComponentGroup>
+  </Fragment>
+
+  <Fragment>
+    <ComponentGroup Id="Components_Configuration_Environment_PROD_OPQ_files" Directory="Components_Configuration_Environment_PROD_OPQ">
+      <Component Id="Components_Configuration_Environment_PROD_OPQ_Config.txt" Guid="e6337f9f-3e5a-4228-8c7a-fb7de7a37b3f">
+        <File Id="Components_Configuration_Environment_PROD_OPQ_Config.txt" Name="Config.txt" Source="$(var.AbcAutoGen_TargetDir)Components\Configuration\Environment\PROD\OPQ\Config.txt" />
+        <RegistryValue Root="HKCU" Key="Software\MyOrg\AbcAutoGen" Value="Components_Configuration_Environment_PROD_OPQ_Config" Type="string" KeyPath="yes" />
+      </Component>
+    </ComponentGroup>
+  </Fragment>
+
+  <Fragment>
+    <ComponentGroup Id="Components_Configuration_Environment_PROD_OPQ_SQLs_files" Directory="Components_Configuration_Environment_PROD_OPQ_SQLs">
+      <Component Id="Components_Configuration_Environment_PROD_OPQ_SQLs_add_new_mart_sqls_here_follow_example.txt" Guid="7dd55f09-bb78-401a-8d48-3884a0d18fae">
+        <File Id="Components_Configuration_Environment_PROD_OPQ_SQLs_add_new_mart_sqls_here_follow_example.txt" Name="add new mart sqls here follow example.txt" Source="$(var.AbcAutoGen_TargetDir)Components\Configuration\Environment\PROD\OPQ\SQLs\add new mart sqls here follow example.txt" />
+        <RegistryValue Root="HKCU" Key="Software\MyOrg\AbcAutoGen" Value="Components_Configuration_Environment_PROD_OPQ_SQLs_add_new_mart_sqls_here_follow_example" Type="string" KeyPath="yes" />
+      </Component>
+      <Component Id="Components_Configuration_Environment_PROD_OPQ_SQLs_BROKER_REFERENCE.txt" Guid="b34f5aa0-a331-4257-aa79-c9eb807e88d3">
+        <File Id="Components_Configuration_Environment_PROD_OPQ_SQLs_BROKER_REFERENCE.txt" Name="BROKER_REFERENCE.txt" Source="$(var.AbcAutoGen_TargetDir)Components\Configuration\Environment\PROD\OPQ\SQLs\BROKER_REFERENCE.txt" />
+        <RegistryValue Root="HKCU" Key="Software\MyOrg\AbcAutoGen" Value="Components_Configuration_Environment_PROD_OPQ_SQLs_BROKER_REFERENCE" Type="string" KeyPath="yes" />
+      </Component>
+    </ComponentGroup>
+  </Fragment>
+
+  <Fragment>
+    <ComponentGroup Id="Components_Configuration_Environment_PROD_RST_files" Directory="Components_Configuration_Environment_PROD_RST">
+      <Component Id="Components_Configuration_Environment_PROD_RST_Config.txt" Guid="0cfbd94a-7247-40da-b0f2-a06031181d1e">
+        <File Id="Components_Configuration_Environment_PROD_RST_Config.txt" Name="Config.txt" Source="$(var.AbcAutoGen_TargetDir)Components\Configuration\Environment\PROD\RST\Config.txt" />
+        <RegistryValue Root="HKCU" Key="Software\MyOrg\AbcAutoGen" Value="Components_Configuration_Environment_PROD_RST_Config" Type="string" KeyPath="yes" />
+      </Component>
+    </ComponentGroup>
+  </Fragment>
+
+  <Fragment>
+    <ComponentGroup Id="Components_Configuration_Environment_PROD_RST_SQLs_files" Directory="Components_Configuration_Environment_PROD_RST_SQLs">
+      <Component Id="Components_Configuration_Environment_PROD_RST_SQLs_add_new_mart_sqls_here_follow_example.txt" Guid="6acae465-d7de-4c3b-886b-40cfdbb8b8db">
+        <File Id="Components_Configuration_Environment_PROD_RST_SQLs_add_new_mart_sqls_here_follow_example.txt" Name="add new mart sqls here follow example.txt" Source="$(var.AbcAutoGen_TargetDir)Components\Configuration\Environment\PROD\RST\SQLs\add new mart sqls here follow example.txt" />
+        <RegistryValue Root="HKCU" Key="Software\MyOrg\AbcAutoGen" Value="Components_Configuration_Environment_PROD_RST_SQLs_add_new_mart_sqls_here_follow_example" Type="string" KeyPath="yes" />
+      </Component>
+      <Component Id="Components_Configuration_Environment_PROD_RST_SQLs_BROKER_REFERENCE.txt" Guid="9cf8446d-7b5a-4759-95ee-e12267f6d73d">
+        <File Id="Components_Configuration_Environment_PROD_RST_SQLs_BROKER_REFERENCE.txt" Name="BROKER_REFERENCE.txt" Source="$(var.AbcAutoGen_TargetDir)Components\Configuration\Environment\PROD\RST\SQLs\BROKER_REFERENCE.txt" />
+        <RegistryValue Root="HKCU" Key="Software\MyOrg\AbcAutoGen" Value="Components_Configuration_Environment_PROD_RST_SQLs_BROKER_REFERENCE" Type="string" KeyPath="yes" />
+      </Component>
+    </ComponentGroup>
+  </Fragment>
+
+  <Fragment>
+    <ComponentGroup Id="Components_Configuration_Environment_CUAT_IJK_SQLs_files" Directory="Components_Configuration_Environment_CUAT_IJK_SQLs">
+      <Component Id="Components_Configuration_Environment_CUAT_IJK_SQLs_add_new_mart_sqls_here_follow_example.txt" Guid="6b3be301-b127-495e-943e-90d1b94590fc">
+        <File Id="Components_Configuration_Environment_CUAT_IJK_SQLs_add_new_mart_sqls_here_follow_example.txt" Name="add new mart sqls here follow example.txt" Source="$(var.AbcAutoGen_TargetDir)Components\Configuration\Environment\CUAT\IJK\SQLs\add new mart sqls here follow example.txt" />
+        <RegistryValue Root="HKCU" Key="Software\MyOrg\AbcAutoGen" Value="Components_Configuration_Environment_CUAT_IJK_SQLs_add_new_mart_sqls_here_follow_example" Type="string" KeyPath="yes" />
+      </Component>
+    </ComponentGroup>
+  </Fragment>
+
+  <Fragment>
+    <ComponentGroup Id="Components_Configuration_Environment_CUAT_CDE_SQLs_files" Directory="Components_Configuration_Environment_CUAT_CDE_SQLs">
+      <Component Id="Components_Configuration_Environment_CUAT_CDE_SQLs_BROKER_REFERENCE.txt" Guid="37d0ec0d-d836-46f3-9919-e8e87f12fe1f">
+        <File Id="Components_Configuration_Environment_CUAT_CDE_SQLs_BROKER_REFERENCE.txt" Name="BROKER_REFERENCE.txt" Source="$(var.AbcAutoGen_TargetDir)Components\Configuration\Environment\CUAT\CDE\SQLs\BROKER_REFERENCE.txt" />
+        <RegistryValue Root="HKCU" Key="Software\MyOrg\AbcAutoGen" Value="Components_Configuration_Environment_CUAT_CDE_SQLs_BROKER_REFERENCE" Type="string" KeyPath="yes" />
+      </Component>
+    </ComponentGroup>
+  </Fragment>
+
+  <Fragment>
+    <ComponentGroup Id="Components_Configuration_Environment_INT_IJK_SQLs_files" Directory="Components_Configuration_Environment_INT_IJK_SQLs">
+      <Component Id="Components_Configuration_Environment_INT_IJK_SQLs_add_new_mart_sqls_here_follow_example.txt" Guid="ce6a2e0f-5397-4cd0-ac92-07fad577c7b0">
+        <File Id="Components_Configuration_Environment_INT_IJK_SQLs_add_new_mart_sqls_here_follow_example.txt" Name="add new mart sqls here follow example.txt" Source="$(var.AbcAutoGen_TargetDir)Components\Configuration\Environment\INT\IJK\SQLs\add new mart sqls here follow example.txt" />
+        <RegistryValue Root="HKCU" Key="Software\MyOrg\AbcAutoGen" Value="Components_Configuration_Environment_INT_IJK_SQLs_add_new_mart_sqls_here_follow_example" Type="string" KeyPath="yes" />
+      </Component>
+    </ComponentGroup>
+  </Fragment>
+
+  <Fragment>
+    <ComponentGroup Id="Components_Configuration_Environment_CUAT_LMN_SQLs_files" Directory="Components_Configuration_Environment_CUAT_LMN_SQLs">
+      <Component Id="Components_Configuration_Environment_CUAT_LMN_SQLs_add_new_mart_sqls_here_follow_example.txt" Guid="d5688586-0d2d-4440-a441-667af7cf53f0">
+        <File Id="Components_Configuration_Environment_CUAT_LMN_SQLs_add_new_mart_sqls_here_follow_example.txt" Name="add new mart sqls here follow example.txt" Source="$(var.AbcAutoGen_TargetDir)Components\Configuration\Environment\CUAT\LMN\SQLs\add new mart sqls here follow example.txt" />
+        <RegistryValue Root="HKCU" Key="Software\MyOrg\AbcAutoGen" Value="Components_Configuration_Environment_CUAT_LMN_SQLs_add_new_mart_sqls_here_follow_example" Type="string" KeyPath="yes" />
+      </Component>
+    </ComponentGroup>
+  </Fragment>
+
+  <Fragment>
+    <ComponentGroup Id="Components_Configuration_Environment_INT_CDE_SQLs_files" Directory="Components_Configuration_Environment_INT_CDE_SQLs">
+      <Component Id="Components_Configuration_Environment_INT_CDE_SQLs_add_new_mart_sqls_here_follow_example.txt" Guid="31522158-2d7d-4eb2-a1c4-5e70c4d0ba63">
+        <File Id="Components_Configuration_Environment_INT_CDE_SQLs_add_new_mart_sqls_here_follow_example.txt" Name="add new mart sqls here follow example.txt" Source="$(var.AbcAutoGen_TargetDir)Components\Configuration\Environment\INT\CDE\SQLs\add new mart sqls here follow example.txt" />
+        <RegistryValue Root="HKCU" Key="Software\MyOrg\AbcAutoGen" Value="Components_Configuration_Environment_INT_CDE_SQLs_add_new_mart_sqls_here_follow_example" Type="string" KeyPath="yes" />
+      </Component>
+    </ComponentGroup>
+  </Fragment>
+
+  <Fragment>
+    <ComponentGroup Id="Components_Configuration_Environment_INT_LMN_SQLs_files" Directory="Components_Configuration_Environment_INT_LMN_SQLs">
+      <Component Id="Components_Configuration_Environment_INT_LMN_SQLs_add_new_mart_sqls_here_follow_example.txt" Guid="d28f7f67-ee3a-4c59-8b7d-26598242c477">
+        <File Id="Components_Configuration_Environment_INT_LMN_SQLs_add_new_mart_sqls_here_follow_example.txt" Name="add new mart sqls here follow example.txt" Source="$(var.AbcAutoGen_TargetDir)Components\Configuration\Environment\INT\LMN\SQLs\add new mart sqls here follow example.txt" />
+        <RegistryValue Root="HKCU" Key="Software\MyOrg\AbcAutoGen" Value="Components_Configuration_Environment_INT_LMN_SQLs_add_new_mart_sqls_here_follow_example" Type="string" KeyPath="yes" />
+      </Component>
+    </ComponentGroup>
+  </Fragment>
+
+  <Fragment>
+    <ComponentGroup Id="Components_Configuration_Environment_PROD_IJK_SQLs_files" Directory="Components_Configuration_Environment_PROD_IJK_SQLs">
+      <Component Id="Components_Configuration_Environment_PROD_IJK_SQLs_add_new_mart_sqls_here_follow_example.txt" Guid="d0511470-c2d6-402c-98af-d1aad283b0e1">
+        <File Id="Components_Configuration_Environment_PROD_IJK_SQLs_add_new_mart_sqls_here_follow_example.txt" Name="add new mart sqls here follow example.txt" Source="$(var.AbcAutoGen_TargetDir)Components\Configuration\Environment\PROD\IJK\SQLs\add new mart sqls here follow example.txt" />
+        <RegistryValue Root="HKCU" Key="Software\MyOrg\AbcAutoGen" Value="Components_Configuration_Environment_PROD_IJK_SQLs_add_new_mart_sqls_here_follow_example" Type="string" KeyPath="yes" />
+      </Component>
+    </ComponentGroup>
+  </Fragment>
+
+  <Fragment>
+    <ComponentGroup Id="Components_Configuration_Environment_PROD_CDE_SQLs_files" Directory="Components_Configuration_Environment_PROD_CDE_SQLs">
+      <Component Id="Components_Configuration_Environment_PROD_CDE_SQLs_BROKER_REFERENCE.txt" Guid="be57d23a-7f2c-4d36-a5c0-b451f115e766">
+        <File Id="Components_Configuration_Environment_PROD_CDE_SQLs_BROKER_REFERENCE.txt" Name="BROKER_REFERENCE.txt" Source="$(var.AbcAutoGen_TargetDir)Components\Configuration\Environment\PROD\CDE\SQLs\BROKER_REFERENCE.txt" />
+        <RegistryValue Root="HKCU" Key="Software\MyOrg\AbcAutoGen" Value="Components_Configuration_Environment_PROD_CDE_SQLs_BROKER_REFERENCE" Type="string" KeyPath="yes" />
+      </Component>
+      <Component Id="Components_Configuration_Environment_PROD_CDE_SQLs_NPS_CA_INFO_DAILY_NEA.txt" Guid="d643d391-af0c-400f-a8d7-0c246292a13f">
+        <File Id="Components_Configuration_Environment_PROD_CDE_SQLs_NPS_CA_INFO_DAILY_NEA.txt" Name="NPS_CA_INFO_DAILY_NEA.txt" Source="$(var.AbcAutoGen_TargetDir)Components\Configuration\Environment\PROD\CDE\SQLs\NPS_CA_INFO_DAILY_NEA.txt" />
+        <RegistryValue Root="HKCU" Key="Software\MyOrg\AbcAutoGen" Value="Components_Configuration_Environment_PROD_CDE_SQLs_NPS_CA_INFO_DAILY_NEA" Type="string" KeyPath="yes" />
+      </Component>
+      <Component Id="Components_Configuration_Environment_PROD_CDE_SQLs_NPS_CA_OPTION_DAILY_NEA.txt" Guid="7ce8491d-f19d-4c16-8983-af38396c118c">
+        <File Id="Components_Configuration_Environment_PROD_CDE_SQLs_NPS_CA_OPTION_DAILY_NEA.txt" Name="NPS_CA_OPTION_DAILY_NEA.txt" Source="$(var.AbcAutoGen_TargetDir)Components\Configuration\Environment\PROD\CDE\SQLs\NPS_CA_OPTION_DAILY_NEA.txt" />
+        <RegistryValue Root="HKCU" Key="Software\MyOrg\AbcAutoGen" Value="Components_Configuration_Environment_PROD_CDE_SQLs_NPS_CA_OPTION_DAILY_NEA" Type="string" KeyPath="yes" />
+      </Component>
+    </ComponentGroup>
+  </Fragment>
+
+  <Fragment>
+    <ComponentGroup Id="Components_Configuration_Environment_PROD_LMN_SQLs_files" Directory="Components_Configuration_Environment_PROD_LMN_SQLs">
+      <Component Id="Components_Configuration_Environment_PROD_LMN_SQLs_add_new_mart_sqls_here_follow_example.txt" Guid="80a17239-189f-47b1-b437-5f4d3d2d2f66">
+        <File Id="Components_Configuration_Environment_PROD_LMN_SQLs_add_new_mart_sqls_here_follow_example.txt" Name="add new mart sqls here follow example.txt" Source="$(var.AbcAutoGen_TargetDir)Components\Configuration\Environment\PROD\LMN\SQLs\add new mart sqls here follow example.txt" />
+        <RegistryValue Root="HKCU" Key="Software\MyOrg\AbcAutoGen" Value="Components_Configuration_Environment_PROD_LMN_SQLs_add_new_mart_sqls_here_follow_example" Type="string" KeyPath="yes" />
+      </Component>
+    </ComponentGroup>
+  </Fragment>
+</Wix>
